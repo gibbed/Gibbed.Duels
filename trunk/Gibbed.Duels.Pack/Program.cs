@@ -90,7 +90,7 @@ namespace Gibbed.Duels.Pack
 
         public static void Main(string[] args)
         {
-            ushort wadVersion = 0x201;
+            ushort wadVersion = 0x202;
             bool compressFiles = false;
             bool uppercaseFileNames = false;
             bool verbose = false;
