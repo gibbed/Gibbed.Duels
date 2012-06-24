@@ -95,7 +95,7 @@ namespace Gibbed.Duels.Pack
             bool uppercaseFileNames = false;
             bool verbose = false;
             bool showHelp = false;
-            string headerFileName = "@header.xml";
+            string headerFileName = null;
 
             var options = new OptionSet()
             {
@@ -195,10 +195,22 @@ namespace Gibbed.Duels.Pack
                 Flags = flags,
             };
 
-            string headerPath = headerFileName;
-            if (Path.IsPathRooted(headerPath) == false)
+            bool usingDefaultHeaderFile;
+            string headerPath;
+
+            if (string.IsNullOrWhiteSpace(headerFileName) == true)
             {
-                headerPath = Path.Combine(inputPath, headerPath);
+                headerPath = Path.Combine(inputPath, "@header.xml");
+                usingDefaultHeaderFile = true;
+            }
+            else
+            {
+                headerPath = headerFileName;
+                usingDefaultHeaderFile = false;
+                if (Path.IsPathRooted(headerPath) == false)
+                {
+                    headerPath = Path.Combine(inputPath, headerPath);
+                }
             }
 
             if (wad.Version >= 0x202)
@@ -217,7 +229,8 @@ namespace Gibbed.Duels.Pack
             foreach (var path in Directory.GetFiles(inputPath, "*", SearchOption.AllDirectories))
             {
                 var fullPath = Path.GetFullPath(path);
-                if (fullPath == headerPath)
+                if (usingDefaultHeaderFile == true &&
+                    fullPath == headerPath)
                 {
                     continue;
                 }
