@@ -300,6 +300,7 @@ namespace Gibbed.Duels.Pack
                                 zlib.WriteFromStream(input, input.Length);
                                 zlib.Finish();
                                 temp.Flush();
+                                temp.Position = 0;
 
                                 if (temp.Length < input.Length)
                                 {
